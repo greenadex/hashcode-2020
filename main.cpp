@@ -3,12 +3,11 @@
 #include <vector>
 #include <queue>
 #include <utility>
-#include <optional>
 #include <unordered_set>
 
 using namespace std;
 
-const string prefix = "a_example";
+const string prefix = "b_read_on";
 const string input_file = prefix + ".txt";
 const string output_file = prefix + ".out";
 
@@ -25,6 +24,22 @@ struct LibraryInfo {
   long long score;
   priority_queue<pair<int, int>, vector<pair<int, int>>> books;
   vector<int> scanned_books;
+
+  LibraryInfo() {
+    index = signup_days = num_shipped = -1;
+    score = -1;
+  }
+
+  LibraryInfo& operator=(const LibraryInfo& other) = default;
+
+  LibraryInfo(const LibraryInfo& other) {
+    index = other.index;
+    signup_days = other.signup_days;
+    num_shipped = other.num_shipped;
+    score = other.score;
+    books = other.books;
+    scanned_books = other.scanned_books;
+  }
 
   const bool operator<(const LibraryInfo& other) const {
     return score < other.score;
@@ -63,20 +78,22 @@ int main() {
   }
 
   vector<LibraryInfo> signed_up;
-  vector<std::optional<LibraryInfo>> finished_for_sign_up(days, std::nullopt);
+  vector<LibraryInfo> finished_for_sign_up(days, LibraryInfo());
   finished_for_sign_up[libraries.top().signup_days] = libraries.top();
+  cout << libraries.top().index << ' ';
+  cout << "AICI" << finished_for_sign_up[libraries.top().signup_days].index << endl;
   libraries.pop();
 
   for (int day = 0; day < days; day++) {
     // Is smth finished for sing up on this day?
-    if (finished_for_sign_up[day].has_value()) {
-      signed_up.push_back(*finished_for_sign_up[day]);
-      cout << "FINISHED SIGN UP FOR " << finished_for_sign_up[day].value().index << " ON DAY " << day << endl;
+    if (finished_for_sign_up[day].index >= 0) {
+      signed_up.push_back(finished_for_sign_up[day]);
+      cout << "FINISHED SIGN UP FOR " << finished_for_sign_up[day].index << " ON DAY " << day << endl;
       if (!libraries.empty()) {
         const auto library = libraries.top();
         libraries.pop();
         cout << "STARTED SIGN UP FOR LIBRARY " << library.index << " on day " << day << endl;
-        finished_for_sign_up[day + library.signup_days - 1] = std::optional<LibraryInfo>(library);
+        finished_for_sign_up[day + library.signup_days - 1] = library;
       }
     }
 
