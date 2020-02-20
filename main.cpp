@@ -7,7 +7,7 @@
 
 using namespace std;
 
-const string prefix = "f_libraries_of_the_world";
+const string prefix = "_tough_choices";
 const string input_file = prefix + ".txt";
 const string output_file = prefix + ".out";
 
@@ -91,12 +91,14 @@ int main() {
 //      cout << "FINISHED SIGN UP FOR " << finished_for_sign_up[day].index << " ON DAY " << day << endl;
       if (!libraries.empty()) {
         LibraryInfo library;
-        do {
-          library = libraries.top();
+        while (!libraries.empty()) {
+          LibraryInfo temp = libraries.top();
           libraries.pop();
-//          cout << "STARTED SIGN UP FOR LIBRARY " << library.index << " on day " << day << endl;
+          if (day + temp.signup_days - 1 < days) {
+            library = temp;
+            break;
+          }
         }
-        while (!libraries.empty() && day + libraries.top().signup_days - 1 >= days);
         if (library.index != -1) {
           finished_for_sign_up[day + library.signup_days - 1] = library;
         }
@@ -118,14 +120,26 @@ int main() {
     }
   }
 
-  cout << "SOLTION: " << endl;
-  fout << signed_up.size() << endl;
-  for (const LibraryInfo& lib : signed_up) {
-    fout << lib.index << ' ' << lib.scanned_books.size() << endl;
-    for (int book_id : lib.scanned_books) {
-      fout << book_id << ' ';
+  int total_signed_up = 0;
+  for (const LibraryInfo& info : signed_up) {
+    if (info.scanned_books.empty()) {
+      continue;
     }
-    fout << endl;
+    total_signed_up++;
+  }
+  cout << "SOLTION: " << endl;
+  fout << total_signed_up << endl;
+  for (const LibraryInfo& lib : signed_up) {
+    if (lib.scanned_books.empty()) {
+      continue;
+    }
+    fout << lib.index << ' ' << lib.scanned_books.size() << endl;
+    if (!lib.scanned_books.empty()) {
+      for (int book_id : lib.scanned_books) {
+        fout << book_id << ' ';
+      }
+      fout << endl;
+    }
   }
   return 0;
 }
