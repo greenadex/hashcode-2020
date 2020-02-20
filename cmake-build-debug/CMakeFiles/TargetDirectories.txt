@@ -1,0 +1,3 @@
+/home/iulia/CLionProjects/hashcode-2020/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/iulia/CLionProjects/hashcode-2020/cmake-build-debug/CMakeFiles/hashcode_2020.dir
+/home/iulia/CLionProjects/hashcode-2020/cmake-build-debug/CMakeFiles/edit_cache.dir

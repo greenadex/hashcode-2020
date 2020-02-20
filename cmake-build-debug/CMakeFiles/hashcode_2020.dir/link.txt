@@ -1,0 +1,1 @@
+/usr/bin/g++-8  -g   CMakeFiles/hashcode_2020.dir/main.cpp.o  -o hashcode_2020 
