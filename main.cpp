@@ -7,7 +7,7 @@
 
 using namespace std;
 
-const string prefix = "b_read_on";
+const string prefix = "c_incunabula";
 const string input_file = prefix + ".txt";
 const string output_file = prefix + ".out";
 
