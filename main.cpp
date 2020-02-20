@@ -7,7 +7,7 @@
 
 using namespace std;
 
-const string prefix = "c_incunabula";
+const string prefix = "f_libraries_of_the_world";
 const string input_file = prefix + ".txt";
 const string output_file = prefix + ".out";
 
@@ -88,12 +88,18 @@ int main() {
     // Is smth finished for sing up on this day?
     if (finished_for_sign_up[day].index >= 0) {
       signed_up.push_back(finished_for_sign_up[day]);
-      cout << "FINISHED SIGN UP FOR " << finished_for_sign_up[day].index << " ON DAY " << day << endl;
+//      cout << "FINISHED SIGN UP FOR " << finished_for_sign_up[day].index << " ON DAY " << day << endl;
       if (!libraries.empty()) {
-        const auto library = libraries.top();
-        libraries.pop();
-        cout << "STARTED SIGN UP FOR LIBRARY " << library.index << " on day " << day << endl;
-        finished_for_sign_up[day + library.signup_days - 1] = library;
+        LibraryInfo library;
+        do {
+          library = libraries.top();
+          libraries.pop();
+//          cout << "STARTED SIGN UP FOR LIBRARY " << library.index << " on day " << day << endl;
+        }
+        while (!libraries.empty() && day + libraries.top().signup_days - 1 >= days);
+        if (library.index != -1) {
+          finished_for_sign_up[day + library.signup_days - 1] = library;
+        }
       }
     }
 
