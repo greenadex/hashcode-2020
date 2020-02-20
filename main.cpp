@@ -71,12 +71,12 @@ int main() {
     // Is smth finished for sing up on this day?
     if (finished_for_sign_up[day].has_value()) {
       signed_up.push_back(*finished_for_sign_up[day]);
+      cout << "FINISHED SIGN UP FOR " << finished_for_sign_up[day].value().index << " ON DAY " << day << endl;
       if (!libraries.empty()) {
         const auto library = libraries.top();
         libraries.pop();
         cout << "STARTED SIGN UP FOR LIBRARY " << library.index << " on day " << day << endl;
         finished_for_sign_up[day + library.signup_days - 1] = std::optional<LibraryInfo>(library);
-        signed_up.push_back(library);
       }
     }
 
@@ -96,13 +96,13 @@ int main() {
   }
 
   cout << "SOLTION: " << endl;
-  cout << signed_up.size() << endl;
+  fout << signed_up.size() << endl;
   for (const LibraryInfo& lib : signed_up) {
-    cout << lib.index << ' ' << lib.scanned_books.size() << endl;
+    fout << lib.index << ' ' << lib.scanned_books.size() << endl;
     for (int book_id : lib.scanned_books) {
-      cout << book_id << ' ';
+      fout << book_id << ' ';
     }
-    cout << endl;
+    fout << endl;
   }
   return 0;
 }
